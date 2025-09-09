@@ -1,28 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { BrainCircuit, LogOut } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 import QuizForm from '@/components/quiz-form';
 import QuizDisplay from '@/components/quiz-display';
+import PasswordProtect from '@/components/password-protect';
 import type { Quiz } from '@/types/quiz';
 import type { QuizFormValues } from '@/components/quiz-form';
 import { useToast } from '@/hooks/use-toast';
 import { generateMultipleChoiceQuestions } from '@/ai/flows/generate-multiple-choice-questions';
 import { generateTrueFalseQuestions } from '@/ai/flows/generate-true-false-questions';
-import { Button } from '@/components/ui/button';
-
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await fetch('/api/logout');
-    router.push('/login');
-  };
 
   const handleGenerateQuiz = async (data: QuizFormValues) => {
     setIsLoading(true);
@@ -61,9 +54,13 @@ export default function Home() {
     setQuiz(null);
   };
 
+  if (!isAuthenticated) {
+    return <PasswordProtect onSuccess={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
-       <header className="w-full max-w-4xl mb-8">
+      <header className="w-full max-w-4xl mb-8">
         <div className="flex justify-between items-center">
           <div className="inline-flex items-center gap-3">
             <BrainCircuit className="w-10 h-10 text-primary" />
@@ -71,10 +68,6 @@ export default function Home() {
               Quizify Study
             </h1>
           </div>
-          <Button variant="ghost" onClick={handleLogout}>
-            <LogOut className="mr-2 h-5 w-5" />
-            Logout
-          </Button>
         </div>
         <p className="text-lg text-muted-foreground mt-2 text-center md:text-left">
           Your AI-powered study partner. Generate practice quizzes in seconds.
