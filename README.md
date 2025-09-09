@@ -24,7 +24,7 @@
 * **AI Integration:** Gemini LLM via Genkit
 * **Hosting:** [quizify.aaravpuri.org](https://quizify.aaravpuri.org)
 
-## ⚡ Getting Started
+## Getting Started
 
 1. Go to [https://quizify.aaravpuri.org](https://quizify.aaravpuri.org) 
 2. **Paste your study guide** (PDF, TXT, etc.) or **enter a topic** manually.
