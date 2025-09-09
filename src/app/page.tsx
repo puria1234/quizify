@@ -60,8 +60,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
-      <header className="w-full max-w-4xl mb-8">
-        <div className="flex justify-between items-center">
+      <header className="w-full max-w-4xl mb-8 flex flex-col items-center">
+        <div className="flex justify-center items-center">
           <div className="inline-flex items-center gap-3">
             <BrainCircuit className="w-10 h-10 text-primary" />
             <h1 className="text-4xl font-extrabold tracking-tighter md:text-5xl">
@@ -69,7 +69,7 @@ export default function Home() {
             </h1>
           </div>
         </div>
-        <p className="text-lg text-muted-foreground mt-2 text-center md:text-left">
+        <p className="text-lg text-muted-foreground mt-2 text-center">
           Your AI-powered study partner. Generate practice quizzes in seconds.
         </p>
       </header>
