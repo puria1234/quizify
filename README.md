@@ -24,29 +24,13 @@
 * **AI Integration:** Gemini LLM via Genkit
 * **Hosting:** [quizify.aaravpuri.org](https://quizify.aaravpuri.org)
 
-## Getting Started
+## ⚡ Getting Started
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/quizify.git
-   ```
-2. Navigate to the project folder:
-
-   ```bash
-   cd quizify
-   ```
-3. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-4. Run the app locally:
-
-   ```bash
-   npm run dev
-   ```
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+1. Go to [https://quizify.aaravpuri.org](https://quizify.aaravpuri.org) 
+2. **Upload your study guide** (PDF, TXT, etc.) or **enter a topic** manually.
+3. Click **“Generate Quiz”** 
+4. Answer the questions and get **instant feedback** 
+5. Repeat with new topics or guides to **practice and learn more** 
 
 ## Contribution
 
@@ -55,10 +39,3 @@ Contributions are welcome! Open an issue, fork the repo, or submit a pull reques
 ## License
 
 This project is licensed under the MIT License.
-
----
-
-If you want, I can also **write a 1–2 sentence GitHub description** optimized for the repo page that’s short, catchy, and highlights the AI question generation. That’s the text that shows up under the repo name on GitHub.
-
-Do you want me to do that too?
-
