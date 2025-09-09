@@ -58,7 +58,7 @@ export default function Home() {
         <div className="inline-flex items-center gap-3 mb-2">
           <BrainCircuit className="w-10 h-10 text-primary" />
           <h1 className="text-4xl font-extrabold tracking-tighter md:text-5xl">
-            Quizify
+            Quizify Study
           </h1>
         </div>
         <p className="text-lg text-muted-foreground">
