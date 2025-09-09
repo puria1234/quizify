@@ -4,7 +4,7 @@
 
 ## App Blueprint
 
-* **Study Guide Upload:** Upload PDFs, TXT files, or other study materials for question generation.
+* **Study Guide Upload:** Paste PDFs, TXT files, or other study material content for question generation.
 * **Topic Input:** Manually input a topic if no study guide is available.
 * **AI-Powered Question Generation:** Uses a large language model (Gemini via Genkit) to generate relevant practice problems.
 * **Multiple Choice & True/False Questions:** Supports different question types to reinforce learning.
@@ -27,7 +27,7 @@
 ## ⚡ Getting Started
 
 1. Go to [https://quizify.aaravpuri.org](https://quizify.aaravpuri.org) 
-2. **Upload your study guide** (PDF, TXT, etc.) or **enter a topic** manually.
+2. **Paste your study guide** (PDF, TXT, etc.) or **enter a topic** manually.
 3. Click **“Generate Quiz”** 
 4. Answer the questions and get **instant feedback** 
 5. Repeat with new topics or guides to **practice and learn more** 
