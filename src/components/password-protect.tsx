@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { BrainCircuit, KeyRound } from 'lucide-react';
 
-const CORRECT_PASSWORD = 'quizifyai'; // You can change this password
+const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_APP_PASSWORD || 'quizifyai';
 
 type PasswordProtectProps = {
   onSuccess: () => void;
