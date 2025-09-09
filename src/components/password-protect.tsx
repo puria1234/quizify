@@ -6,8 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { BrainCircuit, KeyRound } from 'lucide-react';
-
-const CORRECT_PASSWORD = process.env.NEXT_PUBLIC_APP_PASSWORD || 'quizifyai';
+import { verifyPassword } from '@/app/actions';
 
 type PasswordProtectProps = {
   onSuccess: () => void;
@@ -18,13 +17,13 @@ export default function PasswordProtect({ onSuccess }: PasswordProtectProps) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate a small delay for better UX
-    setTimeout(() => {
-      if (password === CORRECT_PASSWORD) {
+    try {
+      const result = await verifyPassword(password);
+      if (result.success) {
         onSuccess();
       } else {
         toast({
@@ -34,8 +33,15 @@ export default function PasswordProtect({ onSuccess }: PasswordProtectProps) {
         });
         setPassword('');
       }
+    } catch (error) {
+      toast({
+        title: 'An Error Occurred',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   return (
