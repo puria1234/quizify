@@ -1,6 +1,6 @@
 # Quizify
 
-**Quizify** is an AI-powered quiz generator that turns study materials into interactive practice problems. Users can paste study guides or input topics, and Quizify generates multiple choice and true/false questions to reinforce learning. It’s designed to make studying smarter, faster, and more engaging.
+**Quizify** is an AI-powered quiz generator that turns study materials into interactive practice problems. Users can paste study guides or input topics, and Quizify generates multiple-choice and true/false questions to reinforce learning. It’s designed to make studying smarter, faster, and more engaging.
 
 ## App Blueprint
 
