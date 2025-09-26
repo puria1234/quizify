@@ -5,7 +5,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -63,19 +62,13 @@ export default function Login() {
               'Signing in...'
             ) : (
               <>
-                <svg
+                <img
                   className="mr-2 -ml-1 w-4 h-4"
                   aria-hidden="true"
                   focusable="false"
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 488 512"
-                >
-                  <path
-                    fill="#4285F4"
-                    d="M488 261.8C488 403.3 381.5 512 244 512 111.8 512 0 400.2 0 261.8 0 123.3 111.8 11.8 244 11.8c70.3 0 129.5 32.3 173.4 78.2l-67.5 64.5c-21.5-20.5-49-32.3-80.4-32.3-64.3 0-116.5 54-116.5 120s52.2 120 116.5 120c78.8 0 102-58.5 105-87.8H244v-75h244z"
-                  />
-                </svg>
+                  alt="Google logo"
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                />
                 Sign in with Google
               </>
             )}
