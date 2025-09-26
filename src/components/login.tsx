@@ -49,7 +49,7 @@ export default function Login() {
             </h1>
           </div>
           <CardDescription>
-            Sign in to create your first AI-powered quiz.
+            Your AI-powered study partner. Generate practice quizzes in seconds.
           </CardDescription>
         </CardHeader>
         <CardContent>
