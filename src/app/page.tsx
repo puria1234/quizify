@@ -121,7 +121,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
+    <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8 relative">
       <Header user={user} isAdmin={isAdmin} onUsersUpdate={fetchAuthorizedUsers} authorizedUsers={authorizedUsers}/>
 
       <main className="w-full max-w-3xl">
