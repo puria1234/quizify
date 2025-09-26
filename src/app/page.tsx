@@ -14,17 +14,6 @@ import { auth } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
 import NotAuthorized from '@/components/not-authorized';
 import { checkUserAuthorization, getAuthorizedUsers } from '@/lib/user-actions';
-import AdminPanel from '@/components/admin-panel';
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { Shield } from 'lucide-react';
 import Header from '@/components/header';
 
 const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
@@ -45,7 +34,7 @@ export default function Home() {
         try {
           const authorized = await checkUserAuthorization(user.email!);
           setIsAuthorized(authorized);
-          if (user.email === adminEmail) {
+          if (authorized && user.email === adminEmail) {
             fetchAuthorizedUsers();
           }
         } catch (error) {
@@ -58,7 +47,7 @@ export default function Home() {
       setAuthLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [user?.email]);
 
   const fetchAuthorizedUsers = async () => {
     try {
@@ -110,7 +99,7 @@ export default function Home() {
     setQuiz(null);
   };
   
-  if (authLoading || isAuthorized === null && user) {
+  if (authLoading || (isAuthorized === null && user)) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-12 h-12 animate-spin text-primary" />

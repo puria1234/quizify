@@ -91,10 +91,12 @@ export default function Header({
               </SheetContent>
             </Sheet>
           )}
-          <Button onClick={handleSignOut} variant="ghost">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
+          {user && (
+            <Button onClick={handleSignOut} variant="ghost" size="sm">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+          )}
         </div>
       </div>
     </header>

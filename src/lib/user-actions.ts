@@ -48,6 +48,7 @@ export async function addUser(
   try {
     await setDoc(doc(db, 'authorizedUsers', email), {
       addedAt: new Date().toISOString(),
+      addedBy: currentUserEmail,
     });
     return { success: true, message: 'User added successfully.' };
   } catch (error) {
