@@ -13,12 +13,19 @@ import {
 const adminEmail = process.env.ADMIN_EMAIL;
 
 async function verifyAdmin(currentUserEmail?: string | null) {
+  if (!adminEmail) {
+    throw new Error('Admin email is not configured.');
+  }
   if (!currentUserEmail || currentUserEmail !== adminEmail) {
     throw new Error('You are not authorized to perform this action.');
   }
 }
 
 export async function isAdmin(email: string): Promise<boolean> {
+  if (!adminEmail) {
+    console.error('ADMIN_EMAIL environment variable is not set.');
+    return false;
+  }
   return email === adminEmail;
 }
 
@@ -26,7 +33,7 @@ export async function checkUserAuthorization(
   email: string
 ): Promise<boolean> {
   if (!email) return false;
-  if (email === adminEmail) return true; // Admin is always authorized
+  if (await isAdmin(email)) return true; // Admin is always authorized
 
   const userDocRef = doc(db, 'authorizedUsers', email);
   const userDoc = await getDoc(userDocRef);

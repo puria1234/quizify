@@ -52,7 +52,7 @@ export default function Home() {
       setAuthLoading(false);
     });
     return () => unsubscribe();
-  }, [user?.email]);
+  }, []);
 
   const fetchAuthorizedUsers = async () => {
     try {
