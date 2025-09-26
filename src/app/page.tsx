@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BrainCircuit, LogOut, Loader2 } from 'lucide-react';
+import { BrainCircuit, Loader2 } from 'lucide-react';
 import QuizForm from '@/components/quiz-form';
 import QuizDisplay from '@/components/quiz-display';
 import Login from '@/components/login';
-import { Button } from '@/components/ui/button';
 import type { Quiz } from '@/types/quiz';
 import type { QuizFormValues } from '@/components/quiz-form';
 import { useToast } from '@/hooks/use-toast';
@@ -13,21 +12,66 @@ import { generateMultipleChoiceQuestions } from '@/ai/flows/generate-multiple-ch
 import { generateTrueFalseQuestions } from '@/ai/flows/generate-true-false-questions';
 import { auth } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
+import NotAuthorized from '@/components/not-authorized';
+import { checkUserAuthorization, getAuthorizedUsers } from '@/lib/user-actions';
+import AdminPanel from '@/components/admin-panel';
+import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Shield } from 'lucide-react';
+import Header from '@/components/header';
+
+const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [authorizedUsers, setAuthorizedUsers] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setUser(user);
+      if (user) {
+        try {
+          const authorized = await checkUserAuthorization(user.email!);
+          setIsAuthorized(authorized);
+          if (user.email === adminEmail) {
+            fetchAuthorizedUsers();
+          }
+        } catch (error) {
+          setIsAuthorized(false);
+          console.error("Authorization check failed:", error);
+        }
+      } else {
+        setIsAuthorized(null);
+      }
       setAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
+
+  const fetchAuthorizedUsers = async () => {
+    try {
+      const users = await getAuthorizedUsers();
+      setAuthorizedUsers(users);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Could not fetch authorized users.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const handleGenerateQuiz = async (data: QuizFormValues) => {
     setIsLoading(true);
@@ -65,23 +109,8 @@ export default function Home() {
   const handleReset = () => {
     setQuiz(null);
   };
-
-  const handleSignOut = async () => {
-    try {
-      await auth.signOut();
-      setUser(null);
-      setQuiz(null);
-    } catch (error) {
-      console.error('Error signing out:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to sign out. Please try again.',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  if (authLoading) {
+  
+  if (authLoading || isAuthorized === null && user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-12 h-12 animate-spin text-primary" />
@@ -93,27 +122,15 @@ export default function Home() {
     return <Login />;
   }
 
+  if (!isAuthorized) {
+    return <NotAuthorized />;
+  }
+
+  const isAdmin = user.email === adminEmail;
+
   return (
     <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
-      <header className="w-full max-w-4xl mb-8 flex flex-col items-center relative">
-        <div className="flex justify-center items-center">
-          <div className="inline-flex items-center gap-3">
-            <BrainCircuit className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl font-extrabold tracking-tighter md:text-5xl">
-              Quizify
-            </h1>
-          </div>
-        </div>
-        <p className="text-lg text-muted-foreground mt-2 text-center">
-          Your AI-powered study partner. Generate practice quizzes in seconds.
-        </p>
-        <div className="absolute top-0 right-0">
-          <Button onClick={handleSignOut} variant="ghost">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
-      </header>
+      <Header user={user} isAdmin={isAdmin} onUsersUpdate={fetchAuthorizedUsers} authorizedUsers={authorizedUsers}/>
 
       <main className="w-full max-w-3xl">
         {quiz ? (
