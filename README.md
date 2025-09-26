@@ -34,7 +34,7 @@
 
 ## Contribution
 
-Contributions are welcome! Open an issue, fork the repo, or submit a pull request to improve Quizify.
+Contributions are welcome! Open an issue, fork the repo, or submit a pull request to improve Quizify. (Note: When forking, you will need to add your own environmental variable with the Gemini API Key)
 
 ## License
 
