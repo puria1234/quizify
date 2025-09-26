@@ -18,6 +18,10 @@ async function verifyAdmin(currentUserEmail?: string | null) {
   }
 }
 
+export async function isAdmin(email: string): Promise<boolean> {
+  return email === adminEmail;
+}
+
 export async function checkUserAuthorization(
   email: string
 ): Promise<boolean> {

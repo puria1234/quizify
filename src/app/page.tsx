@@ -13,10 +13,8 @@ import { generateTrueFalseQuestions } from '@/ai/flows/generate-true-false-quest
 import { auth } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
 import NotAuthorized from '@/components/not-authorized';
-import { checkUserAuthorization, getAuthorizedUsers } from '@/lib/user-actions';
+import { checkUserAuthorization, getAuthorizedUsers, isAdmin as serverIsAdmin } from '@/lib/user-actions';
 import Header from '@/components/header';
-
-const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,24 +23,31 @@ export default function Home() {
   const [authLoading, setAuthLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [authorizedUsers, setAuthorizedUsers] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setUser(user);
-      if (user) {
+      if (user && user.email) {
         try {
-          const authorized = await checkUserAuthorization(user.email!);
+          const [authorized, admin] = await Promise.all([
+            checkUserAuthorization(user.email),
+            serverIsAdmin(user.email)
+          ]);
           setIsAuthorized(authorized);
-          if (authorized && user.email === adminEmail) {
+          setIsAdmin(admin);
+          if (admin) {
             fetchAuthorizedUsers();
           }
         } catch (error) {
           setIsAuthorized(false);
+          setIsAdmin(false);
           console.error("Authorization check failed:", error);
         }
       } else {
         setIsAuthorized(null);
+        setIsAdmin(false);
       }
       setAuthLoading(false);
     });
@@ -114,8 +119,6 @@ export default function Home() {
   if (!isAuthorized) {
     return <NotAuthorized />;
   }
-
-  const isAdmin = user.email === adminEmail;
 
   return (
     <div className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8">
