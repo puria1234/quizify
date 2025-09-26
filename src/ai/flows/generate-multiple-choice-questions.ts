@@ -60,7 +60,14 @@ const generateMultipleChoiceQuestionsFlow = ai.defineFlow(
     outputSchema: GenerateMultipleChoiceQuestionsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      // Ensure output is not null, otherwise return empty questions array
+      return output ?? { questions: [] };
+    } catch (error) {
+      console.error('Error generating multiple choice questions:', error);
+      // On any error, return an empty questions array to prevent crashes.
+      return { questions: [] };
+    }
   }
 );

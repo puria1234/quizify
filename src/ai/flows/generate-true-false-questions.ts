@@ -59,7 +59,14 @@ const generateTrueFalseQuestionsFlow = ai.defineFlow(
     outputSchema: GenerateTrueFalseQuestionsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      // Ensure output is not null, otherwise return empty questions array
+      return output ?? { questions: [] };
+    } catch (error) {
+      console.error('Error generating true/false questions:', error);
+      // On any error, return an empty questions array to prevent crashes.
+      return { questions: [] };
+    }
   }
 );

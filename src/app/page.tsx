@@ -72,27 +72,38 @@ export default function Home() {
     setQuiz(null);
 
     try {
+      let result;
       if (data.questionType === 'mcq') {
-        const result = await generateMultipleChoiceQuestions({
+        result = await generateMultipleChoiceQuestions({
           topic: data.sourceType === 'topic' ? data.sourceText : undefined,
           studyGuide:
             data.sourceType === 'studyGuide' ? data.sourceText : undefined,
           numberOfQuestions: data.numQuestions,
         });
-        setQuiz({ questions: result.questions, type: 'mcq' });
       } else {
-        const result = await generateTrueFalseQuestions({
+        result = await generateTrueFalseQuestions({
           text: data.sourceText,
           numQuestions: data.numQuestions,
         });
-        setQuiz({ questions: result.questions, type: 'tf' });
       }
+      
+      if (result.questions && result.questions.length > 0) {
+        setQuiz({ questions: result.questions, type: data.questionType });
+      } else {
+        toast({
+          title: 'Quiz Generation Failed',
+          description:
+            'The AI could not generate a quiz from the provided topic or text. Please try again with a more specific prompt.',
+          variant: 'destructive',
+        });
+      }
+
     } catch (error) {
       console.error(error);
       toast({
         title: 'Error Generating Quiz',
         description:
-          'There was an issue creating your quiz. Please check your input or try again later.',
+          'There was an unexpected issue creating your quiz. Please try again later.',
         variant: 'destructive',
       });
     } finally {
