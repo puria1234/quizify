@@ -13,7 +13,7 @@
 
 ## Getting Started
 
-1. Go to [https://quizify.aaravpuri.org](https://quizify.aaravpuri.org) 
+1. Go to [https://quizify.aaravpuri.org](https://quizify.aaravpuri.org) and login with your google acount.
 2. **Paste your study guide** (PDF, TXT, etc.) or **enter a topic** manually.
 3. Click **“Generate Quiz”** 
 4. Answer the questions and get **instant feedback** 
