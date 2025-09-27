@@ -143,8 +143,18 @@ export default function Home() {
         )}
       </main>
       <footer className="w-full max-w-4xl mt-12 text-center text-sm text-muted-foreground">
-        <p>Powered by AI. Always double-check critical information.</p>
-      </footer>
+          <p>
+            © 2025{' '}
+            <a
+              href="http://aaravpuri.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-primary"
+            >
+              Aarav Puri
+            </a>
+          </p>
+        </footer>
     </div>
   );
 }
