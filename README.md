@@ -19,10 +19,6 @@
 4. Answer the questions and get **instant feedback** 
 5. Repeat with new topics or guides to **practice and learn more** 
 
-## Contribution
-
-Contributions are welcome! Open an issue, fork the repo, or submit a pull request to improve Quizify. (Note: When forking, you will need to add your own environmental variable with the Gemini API Key & Admin Email)
-
 ## License
 
 This project is licensed under the MIT License.
