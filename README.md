@@ -11,13 +11,6 @@
 * **Quiz Display:** Presents questions in a clean, organized format for easy engagement.
 * **Answer Submission & Feedback:** Users submit answers and receive immediate feedback on performance.
 
-## UI & UX Design
-
-* **Layout:** Clean and organized for a seamless learning experience.
-* **Typography:** Uses 'Inter' font for readability and a modern, neutral feel.
-* **Iconography:** Clear icons representing question types and actions.
-* **Animation:** Subtle transitions to enhance engagement without distraction.
-
 ## Tech Stack
 
 * **Frontend:** TypeScript, Next.js, Tailwind CSS
