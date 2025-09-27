@@ -21,6 +21,32 @@ async function verifyAdmin(currentUserEmail?: string | null) {
   }
 }
 
+export async function setAllowAllUsers(
+  allow: boolean,
+  currentUserEmail?: string | null
+): Promise<{ success: boolean; message: string }> {
+  await verifyAdmin(currentUserEmail);
+  try {
+    await setDoc(doc(db, 'settings', 'accessControl'), { allowAll: allow });
+    return {
+      success: true,
+      message: `Access mode updated successfully.`,
+    };
+  } catch (error) {
+    console.error('Error updating access mode:', error);
+    return { success: false, message: 'Failed to update access mode.' };
+  }
+}
+
+export async function getAllowAllUsers(): Promise<boolean> {
+  const settingsDocRef = doc(db, 'settings', 'accessControl');
+  const docSnap = await getDoc(settingsDocRef);
+  if (docSnap.exists() && docSnap.data().allowAll) {
+    return true;
+  }
+  return false;
+}
+
 export async function isAdmin(email: string): Promise<boolean> {
   if (!adminEmail) {
     console.error('ADMIN_EMAIL environment variable is not set.');
@@ -33,6 +59,10 @@ export async function checkUserAuthorization(
   email: string
 ): Promise<boolean> {
   if (!email) return false;
+
+  const allowAll = await getAllowAllUsers();
+  if (allowAll) return true;
+
   if (await isAdmin(email)) return true; // Admin is always authorized
 
   const userDocRef = doc(db, 'authorizedUsers', email);
